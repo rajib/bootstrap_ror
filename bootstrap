@@ -7,6 +7,9 @@ sudo apt-get install git -y
 echo "Installing OS packages. You will be prompted for your password ..."
 sudo apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev -y
 
+echo "Installing OS packages. For Apache and passenger ..."
+sudo apt-get install libcurl4-openssl-dev apache2-mpm-prefork apache2-prefork-dev libapr1-dev libaprutil1-dev
+
 echo "Install Postgres, a great open source relational database ..."
 sudo apt-get install libmysqlclient15-dev mysql-server -y
 
@@ -20,7 +23,7 @@ echo "Installing RVM ..."
 curl -L get.rvm.io | bash -s stable
 source ~/.rvm/scripts/rvm
 
-echo "Installing ruby 1.9.3 p320"
+echo "Installing ruby 1.9.3 p194"
 rvm install ruby-1.9.3-p194
 
 echo "Updating Rubygems ..."
@@ -33,4 +36,4 @@ echo "Installing Passenger Gem ..."
 gem install passenger --no-rdoc --no-ri
 
 echo "Installing Passenger apache2-module ..."
-sudo passenger-install-apache2-module -y
+passenger-install-apache2-module -y
