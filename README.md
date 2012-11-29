@@ -9,6 +9,6 @@ Then install:
 
 Then, run this one-liner:
 
-    bash < <(curl -s https://raw.github.com/rajib/bootstrap_ruby/master/bootstrap)
+    bash < <(curl -s https://raw.github.com/rajib/bootstrap_ror/master/bootstrap)
 
 Inspired by [https://github.com/rajraj/ubuntu]
