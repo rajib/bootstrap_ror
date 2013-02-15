@@ -37,3 +37,7 @@ gem install passenger --no-rdoc --no-ri
 
 echo "Installing Passenger apache2-module ..."
 passenger-install-apache2-module -y
+
+echo "Installing JAVA..."
+sudo add-apt-repository ppa:webupd8team/java -y
+sudo apt-get update && sudo apt-get install oracle-jdk7-installer -y
