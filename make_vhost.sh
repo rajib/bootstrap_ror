@@ -4,8 +4,8 @@ PassengerRuby /home/ubuntu/.rvm/wrappers/ruby-1.9.3-p194/ruby" >> /etc/apache2/a
 
 
 echo "<VirtualHost *:80>
-        ServerName linksnse-test.indusnetlabs.com
-        DocumentRoot /home/devops/RailsApps/linksnse/current/public
+        ServerName linksnse.indusnetlabs.com
+        DocumentRoot /home/ubuntu/RailsApps/linksnse/current/public
 	RailsEnv live
         RewriteEngine On
         ErrorDocument 503 /system/maintenance.html
@@ -13,7 +13,7 @@ echo "<VirtualHost *:80>
         RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
         RewriteCond %{SCRIPT_FILENAME} !maintenance.html
         RewriteRule ^.*$ - [L,R=503]
-        <Directory /home/devops/RailsApps/linksnse/current/public>
+        <Directory /home/ubuntu/RailsApps/linksnse/current/public>
                 AllowOverride all
                 Options -MultiViews
         </Directory>
