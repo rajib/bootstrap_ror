@@ -16,6 +16,7 @@ echo "<VirtualHost *:80>
         <Directory /home/ubuntu/RailsApps/linksnse/current/public>
                 AllowOverride all
                 Options -MultiViews
+                Allow from all
         </Directory>
 </VirtualHost>" > /etc/apache2/sites-available/linksnse
 
