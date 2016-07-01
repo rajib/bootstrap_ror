@@ -17,6 +17,7 @@ echo "<VirtualHost *:80>
                 AllowOverride all
                 Options -MultiViews
                 Allow from all
+                Require all granted
         </Directory>
 </VirtualHost>" > /etc/apache2/sites-available/linksnse
 
