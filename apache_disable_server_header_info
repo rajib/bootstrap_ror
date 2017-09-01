@@ -1,0 +1,14 @@
+sudo nano apache2.conf
+
+
+ServerSignature Off
+ServerTokens Prod
+<IfModule mod_headers.c>
+  Header unset Server
+  Header always unset Server
+  Header unset X-Powered-By
+  Header always unset X-Powered-By
+</IfModule>
+
+# a2enmod headers
+# service apache2 restart
