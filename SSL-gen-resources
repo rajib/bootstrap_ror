@@ -1,0 +1,3 @@
+A great reference for the cypher config can be found at: https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
+Additional documentation can be found here: https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
+And you can use the Mozilla SSL generator as a great starting config file (The intermediate setting is probably the safest starting point): https://mozilla.github.io/server-side-tls/ssl-config-generator/
