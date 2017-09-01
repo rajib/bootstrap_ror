@@ -1,0 +1,3 @@
+iptables -I INPUT -p tcp -m tcp --dport 587 -j ACCEPT
+sudo ufw allow 587/tcp
+iptables -L -n -v
