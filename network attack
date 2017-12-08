@@ -1,0 +1,53 @@
+https://www.techrepublic.com/blog/smb-technologist/secure-your-apache-server-from-ddos-slowloris-and-dns-injection-attacks/
+
+
+DDoS
+There is an Apache module that was created to prevent a DDoS attack, although it's probably not installed by default. Follow these steps to install the module.
+
+1. Open your terminal window.
+
+2. Issue the command sudo apt-get -y install libapache2-mod-evasive.
+
+3. Issue the command sudo mkdir -p /var/log/apache2/evasive.
+
+4. Issue the command sudo chown -R www-data:root /var/log/apache2/evasive.
+
+5. Open the /etc/apache2/mods-available/mod-evasive.load file (using sudo and your favorite text editor) and append the following to the bottom of that file (this is one configuration per line):
+
+DOSHashTableSize 2048
+DOSPageCount 20  # maximum number of requests for the same page
+DOSSiteCount 300  # total number of requests for any object by the same client IP on the same listener
+DOSPageInterval 1.0 # interval for the page count threshold
+DOSSiteInterval 1.0  # interval for the site count threshold
+DOSBlockingPeriod 10.0 # time that a client IP will be blocked for
+DOSLogDir 
+6. Save the file and restart Apache.
+
+You should now be better protected from DDoS attacks.
+
+Slowloris
+Slowloris is software written by Robert Hansen that allows one machine to take down another machine's web server using minimal bandwidth. Apache has a module to help prevent such attacks. Here's how to get it working for you.
+
+1. Open a terminal window.
+
+2. Issue the command sudo apt-get -y install libapache2-mod-qos.
+
+After the installation is complete, check the configuration in /etc/apache2/mods-available/qos.conf to make sure it perfectly fits your needs. After you tweak the module (if necessary), restart Apache and enjoy a Slowloris-free web server.
+
+DNS Injection
+Spam from web forms is not only prevalent, it's a fast-track method of getting your domain blacklisted by the likes of Spamhaus. To prevent DNS Injection attacks, which are attacks that can inject fake DNS names into your server's cache, you need to add another module to Apache. Follow these steps.
+
+1. Open a terminal window.
+
+2. Issue the command sudo apt-get -y install libapache2-mod-spamhaus.
+
+3. After the installation completes, issue the command sudo touch /etc/spamhaus.wl.
+
+4. With the module installed, open the /etc/apache2/apache2.conf file (using sudo and your favorite text editor) and append the following to the bottom of your configuration file:
+
+<IfModule mod_spamhaus.c>
+  MS_METHODS POST,PUT,OPTIONS,CONNECT 
+  MS_WhiteList /etc/spamhaus.wl 
+  MS_CacheSize 256 
+</IfModule>
+5. Save the apache2.conf file and restart Apache so the new module will take effect.
