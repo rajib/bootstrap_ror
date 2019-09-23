@@ -1,6 +1,16 @@
 # https://www.digitalocean.com/community/tutorials/how-to-configure-apache-content-caching-on-ubuntu-14-04
 # https://www.ionos.com/community/server-cloud-infrastructure/apache/configure-http-content-caching-in-apache-on-ubuntu-1604/
 
+# sudo apt-get update
+# sudo apt-get install apache2-utils
+
+# sudo a2enmod cache
+# sudo a2enmod cache_disk
+# sudo a2enmod expires
+# sudo a2enmod headers
+
+# sudo systemctl restart apache2
+
 <VirtualHost *:80>
   # The ServerName directive sets the request scheme, hostname and port that
   # the server uses to identify itself. This is used when creating
