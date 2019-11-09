@@ -1,0 +1,13 @@
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04
+
+
+You have to create corresponding user and database manually like this:
+
+in shell: psql
+
+then:
+
+  create user alphauser with password 'alphapassword';
+  create database alpha_database owner alphauser;
+  alter user alphauser superuser createrole createdb replication;
+  \q
