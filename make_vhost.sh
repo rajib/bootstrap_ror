@@ -27,3 +27,8 @@ sudo a2enmod rewrite
 sudo a2dissite default
 sudo service apache2 reload
 
+install node with nvm (https://github.com/nvm-sh/nvm)
+and then 
+
+sudo ln -s "$(which node)" /usr/bin/nodejs
+
