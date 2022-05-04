@@ -5,17 +5,38 @@ end
 class OrderProcessingInstruction < ApplicationRecord
 end
 
-@order_histories = OrderHistory.select("order_histories.*,IF(order_processing_instructions.id IS NULL,json_array(), JSON_ARRAYAGG(JSON_OBJECT('id',order_processing_instructions.id,'comments', order_processing_instructions.comments,'reporter_type', order_processing_instructions.reporter_type,'reporter_name', order_processing_instructions.reporter_name,'created_at', order_processing_instructions.created_at,'updated_at', order_processing_instructions.updated_at))) as opis")
-.joins(:order_processing_instructions)
+OrderHistory.select("order_histories.*,IF(
+    order_processing_instructions.id IS NULL,
+    json_array(), 
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            'id',order_processing_instructions.id,
+            'comments', order_processing_instructions.comments,
+            'reporter_type', order_processing_instructions.reporter_type,
+            'reporter_name', order_processing_instructions.reporter_name,
+            'created_at', order_processing_instructions.created_at,
+            'updated_at', order_processing_instructions.updated_at
+            )
+        )
+    ) as opis"
+).left_joins(:order_processing_instructions)
 .where(order_histories: {seller_visible: true, order_id: params[:order_id]})
-.group("order_histories.id")	
+.group("order_histories.id")
     
     
 # Query related to this
-SELECT order_histories.id,IF(order_processing_instructions.id IS NULL,json_array(), JSON_ARRAYAGG(JSON_OBJECT('id',order_processing_instructions.id,'comments', order_processing_instructions.comments))) as opis 
-FROM `order_histories` 
-LEFT JOIN `order_processing_instructions` ON `order_processing_instructions`.`order_history_id` = `order_histories`.`id` 
-WHERE `order_histories`.`seller_visible` = 1 
-AND `order_histories`.`order_id` = 16874 
-GROUP BY order_histories.id
-ORDER BY `order_histories`.`created_at` ASC
+SELECT order_histories.*,IF(
+			order_processing_instructions.id IS NULL,
+			json_array(), 
+			JSON_ARRAYAGG(
+				JSON_OBJECT(
+					'id',order_processing_instructions.id,
+					'comments', order_processing_instructions.comments,
+					'reporter_type', order_processing_instructions.reporter_type,
+					'reporter_name', order_processing_instructions.reporter_name,
+					'created_at', order_processing_instructions.created_at,
+					'updated_at', order_processing_instructions.updated_at
+					)
+				)
+			) as opis FROM `order_histories` LEFT OUTER JOIN `order_processing_instructions` ON `order_processing_instructions`.`order_history_id` = `order_histories`.`id` WHERE `order_histories`.`seller_visible` = 1 AND `order_histories`.`order_id` = 16874 GROUP BY `order_histories`.`id` ORDER BY `order_histories`.`created_at` ASC
+
