@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+  ProxyRequests Off
+  ProxyPreserveHost On
+
+  ProxyPass / http://127.0.1.1:4444/
+  ProxyPassReverse / http://127.0.1.1:4444/
+
+  RewriteEngine on
+  RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
+  RewriteCond %{HTTP:CONNECTION} ^Upgrade$ [NC]
+  RewriteRule .* ws://localhost:4444%{REQUEST_URI} [P]
+</VirtualHost>
