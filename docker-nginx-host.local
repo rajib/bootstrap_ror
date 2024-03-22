@@ -1,0 +1,30 @@
+// One Time activity
+sudo sh -c 'echo "127.0.0.1 dockerhosttest.local" >> /etc/hosts'
+sudo systemctl restart systemd-resolved 
+
+// Install nginx and configure domain
+sudo apt update
+sudo apt install nginx
+
+sudo nano /etc/nginx/sites-available/default
+
+server {
+    listen 80;
+    server_name dockerhosttest.local;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+
+// Build the docker container
+docker build -t dockerhosttest .
+// Bind to the locally created host address
+docker run -p 3000:3000 --hostname dockerhosttest.local dockerhosttest
+
+
