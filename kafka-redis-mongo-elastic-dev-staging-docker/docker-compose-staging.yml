@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  redis-staging:
+    image: redis:6
+    command: redis-server --requirepass SecureMeDockerVmRedis
+    ports:
+      - "6380:6379"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    restart: unless-stopped
+    environment:
+      REDIS_ARGS: "--requirepass SecureMeDockerVmRedis --user redis_unizap_dev on >SecureMeDockerVmRedis ~* allcommands --user default off nopass nocommands"
+    
+
+  elasticsearch-staging:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.0
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=SecureMeDockerVmElastic
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false      
+    ports:
+      - "9201:9200"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    restart: unless-stopped
+
+  mongodb-staging:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo_unizap_dev
+      - MONGO_INITDB_ROOT_PASSWORD=SecureMeDockerVmMongo
+    ports:
+      - "27018:27017"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    restart: unless-stopped
+
+  kafka-staging:
+    image: confluentinc/cp-kafka
+    ports:
+      - "9093:9093"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper-staging:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://[REPLACE_WITH_EXTERNAL_IP]:9093
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    depends_on:
+      - zookeeper-staging
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    restart: unless-stopped
+
+  zookeeper-staging:
+    image: confluentinc/cp-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    restart: unless-stopped
